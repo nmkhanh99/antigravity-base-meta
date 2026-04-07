@@ -1,0 +1,21 @@
+# Antigravity & IDE
+.agents/.cache/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Environment
+.env
+.env.local
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary Antigravity files
+.antigravity/
