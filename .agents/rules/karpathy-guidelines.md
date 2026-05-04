@@ -21,17 +21,19 @@ Hướng dẫn hành vi giúp LLM giảm lỗi code phổ biến, gốc từ [An
 - Mơ hồ → dừng lại, nêu rõ, hỏi.
 
 **Trước task không trivial, luôn output:**
-1. Tóm tắt hiểu biết → 2. Liệt kê giả định → 3. Đề xuất phương án
+1. Tóm tắt hiểu biết
+2. Liệt kê giả định
+3. Đề xuất phương án + success criteria
 
 ```
-# ❌ Tự ý chọn cách hiểu
+❌ Tự ý chọn cách hiểu
 User: "Thêm validation cho field này"
-Agent: *viết luôn 5 loại validation*
+Agent: viết luôn 5 loại validation
 
-# ✅ Hỏi rõ, đưa options
+✅ Hỏi rõ, đưa options
 Agent: "Bạn cần loại nào?
-  A) Required + format (nhanh)  B) + business rule (kỹ hơn)
-  Recommend A trước, bổ sung sau nếu cần."
+A) Required + format (nhanh)  B) + business rule (kỹ hơn)
+Recommend A trước, bổ sung sau nếu cần."
 ```
 
 ---
@@ -67,17 +69,15 @@ def validate_product_name(name):
 
 - Không "cải tiến" code xung quanh, comment, formatting. Không refactor thứ không hỏng.
 - Tuân theo style hiện tại. Dead code không liên quan → nhắc, không xóa.
-- Xóa orphan do **chính bạn** tạo (imports, variables). Không xóa dead code có sẵn.
+- Xóa orphan do chính bạn tạo (imports, variables). Không xóa dead code có sẵn.
 
-> **Tasteful Cleanup:** Được fix comment sai, dead code, typo **trong cùng block bạn đang sửa**. KHÔNG refactor cả khu vực, KHÔNG đổi tên hàm xung quanh.
+> **Tasteful Cleanup:** Được fix comment sai, dead code, typo trong cùng block bạn đang sửa. KHÔNG refactor cả khu vực, KHÔNG đổi tên hàm xung quanh.
 
-```python
-# User: "Đổi 'qty' → 'quantity'"
-
-# ❌ Vượt scope: đổi tên hàm khác, thêm docstring, format file
-# ✅ Surgical: rename + sửa comment/reference trực tiếp liên quan
-#    → Nhắc user: "Có 3 file khác reference 'qty', sửa luôn không?"
-#    → Không tự ý sửa các file khác mà chưa được đồng ý
+```
+❌ Vượt scope: đổi tên hàm khác, thêm docstring, format file
+✅ Surgical: rename + sửa comment/reference trực tiếp liên quan
+→ Nhắc user: "Có 3 file khác reference 'qty', sửa luôn không?"
+→ Không tự ý sửa các file khác mà chưa được đồng ý
 ```
 
 **Kiểm tra:** Mỗi dòng thay đổi phải truy vết về yêu cầu user.
@@ -108,11 +108,11 @@ Tiêu chí rõ → làm việc độc lập. Tiêu chí mơ hồ → cần hỏi
 
 | LLM Failure Mode | Cách tránh |
 |---|---|
-| **Hallucinate API** | Verify bằng source code thực, không đoán |
-| **Over-abstract** | Concrete trước, abstract khi pattern lặp ≥ 3 lần |
-| **Quên context** | Đọc lại file trước khi sửa, không dựa vào "nhớ" |
-| **Bịa edge case** | Chỉ xử lý khi có evidence hoặc user yêu cầu |
-| **Tự tin quá mức** | Nói rõ mức tự tin, đề xuất verify |
+| Hallucinate API | Verify bằng source code thực, không đoán |
+| Over-abstract | Concrete trước, abstract khi pattern lặp ≥ 3 lần |
+| Quên context | Đọc lại file trước khi sửa, không dựa vào "nhớ" |
+| Bịa edge case | Chỉ xử lý khi có evidence hoặc user yêu cầu |
+| Tự tin quá mức | Nói rõ mức tự tin, đề xuất verify |
 
 **Agent Workflow:** Plan + Assumptions + Success Criteria → Code → Test → Fix → Retest → Self-review.
 **Tool:** Đọc trước khi sửa → Chạy test sau thay đổi → Search codebase thay vì đoán.

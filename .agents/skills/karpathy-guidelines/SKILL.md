@@ -3,7 +3,7 @@ name: karpathy-guidelines
 description: Hướng dẫn hành vi giúp LLM giảm lỗi code phổ biến. Áp dụng khi viết, review, hoặc refactor code — tránh over-engineering, thay đổi ngoài phạm vi, và đảm bảo kết quả kiểm chứng được.
 ---
 
-# Karpathy Guidelines (v3)
+# Karpathy Guidelines
 
 Hướng dẫn hành vi giúp LLM giảm lỗi code phổ biến, gốc từ [Andrej Karpathy](https://x.com/karpathy/status/2015883857489522876).
 
@@ -39,14 +39,14 @@ Hướng dẫn hành vi giúp LLM giảm lỗi code phổ biến, gốc từ [An
 Khi ambiguous → đưa 2–3 options kèm tradeoff, hỏi user chọn.
 
 ```
-# ❌ Tự ý chọn cách hiểu
+❌ Tự ý chọn cách hiểu
 User: "Thêm validation cho field này"
-Agent: *viết luôn 5 loại validation*
+Agent: viết luôn 5 loại validation
 
-# ✅ Hỏi rõ, đưa options
+✅ Hỏi rõ, đưa options
 Agent: "Bạn cần loại nào?
-  A) Required + format (nhanh)  B) + business rule (kỹ hơn)
-  Recommend A, bổ sung sau nếu cần."
+A) Required + format (nhanh)  B) + business rule (kỹ hơn)
+Recommend A, bổ sung sau nếu cần."
 ```
 
 ### 2. Đơn Giản Là Vàng (Simplicity First)
@@ -60,7 +60,7 @@ Agent: "Bạn cần loại nào?
 > *"Senior engineer có bảo over-complicated không?"*
 
 ```python
-# ❌ Strategy pattern cho việc đơn giản
+# ❌ Over-engineering
 class ProductNameValidator:
     def __init__(self, strategies=None):
         self.strategies = strategies or [LengthStrategy(), CharsetStrategy()]
@@ -76,17 +76,17 @@ def validate_product_name(name):
 
 **Chỉ chạm vào đúng chỗ cần thiết.**
 
-- Không "cải tiến" code xung quanh, comment, formatting.
+- Không "cải tiến" code xung quanh, comment, formatting. Không refactor thứ không hỏng.
 - Tuân theo style hiện tại. Dead code không liên quan → nhắc, không xóa.
-- Xóa orphan do **chính bạn** tạo. Không xóa dead code có sẵn.
+- Xóa orphan do chính bạn tạo. Không xóa dead code có sẵn.
 
-> **Tasteful Cleanup:** Được fix comment sai, typo **trong cùng block đang sửa**. KHÔNG refactor cả khu vực.
+> **Tasteful Cleanup:** Được fix comment sai, typo trong cùng block đang sửa. KHÔNG refactor cả khu vực.
 
-```python
-# User: "Đổi 'qty' → 'quantity'"
-# ❌ Vượt scope: đổi tên hàm khác, thêm docstring, format file
-# ✅ Surgical: rename + sửa reference trực tiếp liên quan
-#    → Nhắc: "Có 3 file khác reference 'qty', sửa luôn không?"
+```
+❌ Vượt scope: đổi tên hàm khác, thêm docstring, format file
+✅ Surgical: rename + sửa reference trực tiếp liên quan
+→ Nhắc: "Có 3 file khác reference 'qty', sửa luôn không?"
+→ Không tự ý sửa các file khác mà chưa được đồng ý
 ```
 
 **Kiểm tra:** Mỗi dòng thay đổi phải truy vết về yêu cầu user.
@@ -115,18 +115,17 @@ Tiêu chí rõ → làm việc tự chủ. Tiêu chí mơ hồ → cần hỏi.
 
 | Failure Mode | Biểu hiện | Cách tránh |
 |---|---|---|
-| **Hallucinate API** | Dùng method không tồn tại | Verify bằng source code thực |
-| **Over-abstract** | Framework cho 1 use case | Concrete trước, abstract khi lặp ≥ 3 |
-| **Quên context** | Sửa mâu thuẫn file khác | Đọc lại file trước khi sửa |
-| **Bịa edge case** | Handle tình huống không tồn tại | Chỉ khi có evidence |
-| **Tự tin quá mức** | "Chắc chắn đúng" không verify | Nói mức tự tin, đề xuất verify |
+| Hallucinate API | Dùng method không tồn tại | Verify bằng source code thực |
+| Over-abstract | Framework cho 1 use case | Concrete trước, abstract khi lặp ≥ 3 |
+| Quên context | Sửa mâu thuẫn file khác | Đọc lại file trước khi sửa |
+| Bịa edge case | Handle tình huống không tồn tại | Chỉ khi có evidence |
+| Tự tin quá mức | "Chắc chắn đúng" không verify | Nói mức tự tin, đề xuất verify |
 
 #### Agent Workflow
 
 **Trước code:** Output Plan → Assumptions → Success Criteria.
 **Trong code:** Đọc source → Code → Test → Fix → Retest. Giữ scope, muốn sửa thêm → hỏi hoặc ghi nhận.
 **Sau code:** Self-review bằng checklist → Summarize changes.
-**Anti-hallucination:** Không chắc API → search source. Không nhớ context → đọc lại file. Output dài → chunk nhỏ, verify từng phần.
 
 #### Environment & Multi-Agent
 
