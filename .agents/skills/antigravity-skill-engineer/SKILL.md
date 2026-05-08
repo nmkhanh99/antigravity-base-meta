@@ -1,6 +1,6 @@
 ---
 name: antigravity-skill-engineer
-description: Quản lý toàn bộ vòng đời Skill Antigravity theo đúng chuẩn Google: tạo mới, đánh giá/review và chỉnh sửa/hoàn thiện skill có sẵn. Use when the user asks to create, build, review, evaluate, improve, refine or fix any Antigravity Skill.
+description: "Quản lý toàn bộ vòng đời Skill Antigravity theo đúng chuẩn Google: tạo mới, đánh giá/review và chỉnh sửa/hoàn thiện skill có sẵn. Use when the user asks to create, build, review, evaluate, improve, refine or fix any Antigravity Skill."
 ---
 
 # Antigravity Skill Engineer

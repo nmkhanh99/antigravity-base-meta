@@ -1,6 +1,6 @@
 ---
 name: antigravity-rule-engineer
-description: Quản lý toàn bộ vòng đời Rules trong Antigravity: tạo mới, đánh giá/review và chỉnh sửa/cải tiến Rule theo đúng chuẩn chính thức của Google. Use when the user asks to create, build, review, evaluate, improve, refine or fix any Rule.
+description: "Quản lý toàn bộ vòng đời Rules trong Antigravity: tạo mới, đánh giá/review và chỉnh sửa/cải tiến Rule theo đúng chuẩn chính thức của Google. Use when the user asks to create, build, review, evaluate, improve, refine or fix any Rule."
 ---
 
 # Antigravity Rule Engineer
