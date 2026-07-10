@@ -1,0 +1,4 @@
+interface:
+  display_name: "Discuss With Claude"
+  short_description: "Read-only technical dialogue with Claude"
+  default_prompt: "Use $discuss-with-claude to get and critically synthesize Claude's read-only second opinion on the technical decision in my request."

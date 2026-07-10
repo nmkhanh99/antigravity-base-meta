@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify Engine With Claude"
+  short_description: "Source-backed calculation and rule verification"
+  default_prompt: "Use $verify-engine-with-claude to verify the deterministic calculation or business-rule logic in my request against a traceable source or fixture."
